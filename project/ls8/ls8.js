@@ -5,6 +5,8 @@ const CPU = require('./cpu');
 /**
  * Process a loaded file
  */
+
+
 function processFile(content, cpu, onComplete) {
     // Pointer to the memory address in the CPU that we're
     // loading a value into:
@@ -20,21 +22,24 @@ function processFile(content, cpu, onComplete) {
         // !!! IMPLEMENT ME
 
         // Strip comments
-
+        let withoutComment = line.split('#')[0]
+        
         // Remove whitespace from either end of the line
-
+        withoutComment=withoutComment.replace(/[^0-9]/g,'')
         // Ignore empty lines
-
-        // Convert from binary string to numeric value
-
-        // Store in the CPU with the .poke() function
-
+        if(withoutComment.length){
+            // Convert from binary string to numeric value
+            let numeric = Number('0b'+withoutComment)
+            // Store in the CPU with the .poke() function
+            cpu.poke(curAddr,numeric)
+            curAddr++;
+        }
         // And on to the next one
-        curAddr++;
     }
-
     onComplete(cpu);
 }
+
+
 
 /**
  * Load the instructions into the CPU from stdin
@@ -49,6 +54,7 @@ function loadFileFromStdin(cpu, onComplete) {
     process.stdin.on('end', () => { processFile(content, cpu, onComplete); });
 }
 
+
 /**
  * Load the instructions into the CPU from a file
  */
@@ -56,6 +62,8 @@ function loadFile(filename, cpu, onComplete) {
     const content = fs.readFileSync(filename, 'utf-8');
     processFile(content, cpu, onComplete);
 }
+
+
 
 /**
  * On File Loaded
