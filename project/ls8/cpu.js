@@ -14,6 +14,9 @@ const LDI=0b10011001;
 const MUL=0b10101010;
 // PRN
 const PRN=0b01000011;
+//Add 
+const ADD=0b10101000;
+
 
 
 /**
@@ -50,6 +53,8 @@ class CPU {
         bt[MUL] = this.MUL;
         // PRN
         bt[PRN] = this.PRN;
+        //ADD
+        bt[ADD] = this.ADD;
 
 		this.branchTable = bt;
 	}
@@ -89,6 +94,11 @@ class CPU {
             case 'MUL':
                 // !!! IMPLEMENT ME
                 this.reg[regA] = this.reg[regA] *this.reg[regB]
+                break;
+
+            case 'ADD':
+                // !!! IMPLEMENT ME
+                this.reg[regA] = this.reg[regA] + this.reg[regB]
                 break;
         }
     }
@@ -151,7 +161,14 @@ class CPU {
         // Call the ALU
         this.alu('MUL',regA,regB)
     }
-
+    
+    /**
+    * PRN R
+    */
+   ADD(regA, regB) {
+       // !!! IMPLEMENT MAR
+       this.alu('ADD',regA,regB)
+   }
     /**
      * PRN R
      */
@@ -159,6 +176,7 @@ class CPU {
         // !!! IMPLEMENT MAR
         console.log(this.reg[regA])
     }
+
 }
 
 module.exports = CPU;
